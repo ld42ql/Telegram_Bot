@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Args;
+using System.Threading;
 
 namespace Test_Telegram_Bot
 {
@@ -16,7 +19,7 @@ namespace Test_Telegram_Bot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new InterfaceForm());
         }
     }
 }
