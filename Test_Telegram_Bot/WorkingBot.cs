@@ -17,16 +17,15 @@ namespace Test_Telegram_Bot
 
     class WorkingBot : UserSet
     {
-        private static Telegram.Bot.TelegramBotClient Bot;
+        public static Telegram.Bot.TelegramBotClient Bot;
         private static long update_id;
         private static string messageText = String.Empty;
-        private static ReplyKeyboardMarkup keyboard;
+        private static string AnswerBots;
+        static ReplyKeyboardMarkup keyboardMarkup;
 
         public WorkingBot(long messageFromId, string messageText) : base(messageFromId, messageText)
         {
         }
-
-        private string answerBots = String.Empty;
 
         /// <summary>
         /// Начала работы бота
@@ -41,9 +40,7 @@ namespace Test_Telegram_Bot
         /// <summary>
         /// Работа бота
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="messageEventArgs"></param>
-        private static async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
+        public static void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             Message message = messageEventArgs.Message;
 
@@ -52,74 +49,27 @@ namespace Test_Telegram_Bot
             update_id = message.Chat.Id;
             messageText = message.Text;
 
-            UsersGreateKeyboard();
-
-            WorkingBot user = new WorkingBot(update_id, messageText);
-            try
-            {
-                await Bot.SendTextMessageAsync(update_id, user.AnswerBots, replyMarkup: keyboard);
-                Console.WriteLine($"\n****************\n{update_id} {messageText}" +
-                    $" {DateTime.Now}\n****************\n");
-            }
-            catch (Exception e)
-            {
-            }
-        }
-        /// <summary>
-        /// Ответ бота
-        /// </summary>
-        public string AnswerBots
-        {
-            get
-            {
-                SelectOperations();
-                return answerBots;
-            }
+            SelectMode(messageText);
         }
 
         /// <summary>
-        /// Формируем ответ
+        /// Выбор и отправка сообщения
         /// </summary>
-        /// <param name="operations">Для какого метода</param>
-        string AnswerMessage(PossibleOperations operations)
+        /// <param name="msgTxt"></param>
+        static async void SelectMode(string msgTxt)
         {
-            string str = $"{operations()}";
-            return str;
-        }
+            AnswerBots = String.Empty;
 
-        /// <summary>
-        /// Выбор ответа
-        /// </summary>
-        void SelectOperations()
-        {
-            if (!Char.IsLetter(MessageText, 0))
+            switch (msgTxt)
             {
-                switch (MessageText.Substring(1, MessageText.Length - 1))
-                {
-                    case "travel":
-                    case "Путешествие":
-                        answerBots = AnswerMessage(operations: Operations.EventRandom); break;
-                    case "dice":
-                    case "Бросок кубика":
-                        answerBots = AnswerMessage(operations: Operations.ResultDice); break;
-                    default: answerBots = AnswerMessage(operations: Operations.ErrorAnswer); break;
-                }
+                case "/test":
+                    await Bot.SendTextMessageAsync(update_id, "ТЕСТ!!!!", replyMarkup: keyboardMarkup);
+                    break;
+                default:
+                    DefaultModeBot user = new DefaultModeBot(update_id, messageText);
+                    user.AnswerDefaultBotTest();
+                    break;
             }
-        }
-
-        /// <summary>
-        /// Создание клавиатуры для пользователя
-        /// </summary>
-        static void UsersGreateKeyboard()
-        {
-            keyboard = new ReplyKeyboardMarkup(new[]
-                               {
-                    new [] // first row
-                    {
-                        new KeyboardButton("*Путешествие"),
-                        new KeyboardButton("*Бросок кубика"),
-                    },
-                }, true, false);
         }
     }
 }
