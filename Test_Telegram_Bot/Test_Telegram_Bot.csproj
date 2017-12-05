@@ -106,6 +106,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultModeBot.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="InterfaceForm.cs">
       <SubType>Form</SubType>
@@ -113,6 +114,7 @@
     <Compile Include="InterfaceForm.Designer.cs">
       <DependentUpon>InterfaceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModeClass.cs" />
     <Compile Include="Operations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

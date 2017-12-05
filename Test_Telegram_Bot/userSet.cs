@@ -11,19 +11,20 @@ namespace Test_Telegram_Bot
     /// </summary>
     class UserSet
     {
+        public static Telegram.Bot.TelegramBotClient Bot;
+
         /// <summary>
         /// От кого сообщения
         /// </summary>
-        public string MessageText { get => messageText; set => messageText = value; }
+        public string MessageText { get => messageText; }
         private long messageFromId = 0;
 
         /// <summary>
         /// Текст сообщения
         /// </summary>
-        public long MessageFromId { get => messageFromId; set => messageFromId = value; }
-        private string messageText = String.Empty;
+        public long MessageFromId { get => messageFromId; }
 
-        //static public string startURL = $"https://api.telegram.org/bot451203706:AAEXY_QgsHxwwxyqu3t92Lybv0RM2LkirlY";
+        private string messageText = String.Empty;
 
         /// <summary>
         /// Объект с данными от пользователя
@@ -35,5 +36,7 @@ namespace Test_Telegram_Bot
             this.messageFromId = messageFromId;
             this.messageText = messageText;
         }
+
+
     }
 }
